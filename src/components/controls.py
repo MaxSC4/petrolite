@@ -40,7 +40,18 @@ def create_controls_card() -> dbc.Card:
                         id="upload-status",
                         className="text-muted small mb-3",
                     ),
-                    html.H6("2. Select axes", className="card-title mt-2"),
+                    html.H6("2. Diagram type", className="card-title mt-2"),
+                    dbc.RadioItems(
+                        id="diagram-type-radio",
+                        options=[
+                            {"label": "Custom X-Y", "value": "custom"},
+                            {"label": "Harker (SiO2 vs oxide)", "value": "harker"},
+                        ],
+                        value="custom",
+                        inline=False,
+                        className="mb-2",
+                    ),
+                    html.H6("3. Select axes", className="card-title mt-3"),
                     dbc.Label("X-axis"),
                     dcc.Dropdown(
                         id="x-column-dropdown",
@@ -65,6 +76,7 @@ def create_controls_card() -> dbc.Card:
                         value=None,
                         clearable=True,
                     ),
+
                 ]
             ),
         ],
