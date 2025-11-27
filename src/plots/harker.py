@@ -6,6 +6,8 @@ import pandas as pd
 from plotly.graph_objs import Figure
 
 from src.plots.basic_xy import create_xy_scatter
+from src.utils.labels import get_pretty_label
+from src.utils.plot_style import apply_publication_style
 
 
 def create_harker_scatter(
@@ -15,7 +17,7 @@ def create_harker_scatter(
     base_col: str = "SiO2",
 ) -> Figure:
     """
-    Create a simple Harker-style diagram (base_col vs y_col).
+    Create a Harker-style diagram (base_col vs y_col) with publication styling.
 
     Parameters
     ----------
@@ -31,7 +33,7 @@ def create_harker_scatter(
     Returns
     -------
     plotly.graph_objs.Figure
-        Harker-style scatter figure.
+        Harker-style scatter figure with publication-style layout.
 
     Raises
     ------
@@ -43,15 +45,23 @@ def create_harker_scatter(
             f'Harker diagram requires column "{base_col}" in the dataset.'
         )
 
+    pretty_x = get_pretty_label(base_col)
+    pretty_y = get_pretty_label(y_col)
+    title = f"Harker diagram: {pretty_y} vs {pretty_x}"
+
     fig: Figure = create_xy_scatter(
         df=df,
         x_col=base_col,
         y_col=y_col,
         group_col=group_col,
+        title=title,
     )
 
-    fig.update_layout(
-        title=f"Harker diagram: {base_col} vs {y_col}",
+    fig = apply_publication_style(
+        fig=fig,
+        x_label=pretty_x,
+        y_label=pretty_y,
+        title=title,
     )
 
     return fig

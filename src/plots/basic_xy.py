@@ -6,12 +6,16 @@ import pandas as pd
 import plotly.express as px
 from plotly.graph_objs import Figure
 
+from src.utils.labels import get_pretty_label
+from src.utils.plot_style import apply_publication_style
+
 
 def create_xy_scatter(
     df: pd.DataFrame,
     x_col: str,
     y_col: str,
     group_col: Optional[str] = None,
+    title: Optional[str] = None,
 ) -> Figure:
     """
     Create a simple X vs Y scatter plot for geochemical data.
@@ -26,12 +30,20 @@ def create_xy_scatter(
         Column name to use for the Y axis.
     group_col : str, optional
         Column name used to color points by group (e.g., rock type).
+    title : str, optional
+        Plot title. If None, a generic "X vs Y" title is used.
 
     Returns
     -------
     plotly.graph_objs.Figure
-        Configured Plotly scatter figure.
+        Configured Plotly scatter figure with publication-style layout.
     """
+    pretty_x = get_pretty_label(x_col)
+    pretty_y = get_pretty_label(y_col)
+
+    if title is None:
+        title = f"{pretty_y} vs {pretty_x}"
+
     fig: Figure = px.scatter(
         df,
         x=x_col,
@@ -41,13 +53,11 @@ def create_xy_scatter(
         hover_data=df.columns,
     )
 
-    fig.update_layout(
-        xaxis_title=x_col,
-        yaxis_title=y_col,
-        legend_title=group_col or "Group",
-        margin=dict(l=60, r=10, t=40, b=60),
+    fig = apply_publication_style(
+        fig=fig,
+        x_label=pretty_x,
+        y_label=pretty_y,
+        title=title,
     )
-
-    fig.update_traces(marker=dict(size=8, opacity=0.8))
 
     return fig
