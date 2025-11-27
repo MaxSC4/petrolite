@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+
+# Virtual env (Conda or venv)
+.venv/
+env/
+venv/
+*.env
+
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dash / static exports
+*.html
+*.svg
+*.png
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
